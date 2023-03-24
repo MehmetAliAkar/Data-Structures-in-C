@@ -9,9 +9,10 @@ struct node
 
 void	print(struct node *r)
 {
+	printf("\n");
 	while (r != NULL)
 	{
-		printf("\n%d ", r-> x);
+		printf("%d ", r-> x);
 		r = r -> next;
 	}
 } 
@@ -54,6 +55,30 @@ struct node * addSeq(struct node *r, int x)
 	return (r);
 }
 
+struct node * delete(struct node * r, int x)
+{
+	struct node * temp;
+	temp = (struct node*)malloc(sizeof(struct node));
+	struct node * iter = r;
+	if (r -> x ==  x)
+	{//control 1
+		temp = r -> next;
+		free(r);
+		return (temp);
+	}
+	while (iter -> next != NULL && iter -> next -> x != x)
+		iter = iter -> next;
+	if (iter -> next == NULL)
+	{
+		printf("\nNumber cannot found.");
+		return (r);
+	}
+	temp = iter -> next;
+	iter -> next = iter -> next -> next;
+	free(temp);
+	return (r);
+}
+       	
 int main(void)
 {
 	struct node * root = NULL;
@@ -62,7 +87,15 @@ int main(void)
 	root = addSeq(root, 4);
 	root = addSeq(root, 20);
 	root = addSeq(root, 500);
-
+	print(root);
+	printf("\n");
+	root = delete(root,4);
+	print(root);
+	root = delete(root, 50);
+	print(root);
+	root = delete(root,500);
+	print(root);
+	root = delete(root, 500);
 	print(root);
 	return (0);
 }
